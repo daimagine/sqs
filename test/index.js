@@ -27,6 +27,7 @@ test.cb('Subscribe', (t) => {
                 })
                 .catch((error) => {
                     t.falsy(error);
+                    t.end();
                 });
         // wait for done() to be finished, coffee?
         }, 5000);
