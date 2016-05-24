@@ -46,12 +46,15 @@ var Sqs = function () {
     function Sqs() {
         var prefix = arguments.length <= 0 || arguments[0] === undefined ? 'hooq' : arguments[0];
         var suffix = arguments.length <= 1 || arguments[1] === undefined ? 'development' : arguments[1];
-        var options = arguments.length <= 2 || arguments[2] === undefined ? { aws: {}, useNameOnly: false } : arguments[2];
+
+        var _ref = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+        var _ref$aws = _ref.aws;
+        var aws = _ref$aws === undefined ? {} : _ref$aws;
+        var _ref$useNameOnly = _ref.useNameOnly;
+        var useNameOnly = _ref$useNameOnly === undefined ? false : _ref$useNameOnly;
 
         _classCallCheck(this, Sqs);
-
-        var aws = options.aws;
-        var useNameOnly = options.useNameOnly;
 
         this.prefix = prefix;
         this.suffix = suffix;

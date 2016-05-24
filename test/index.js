@@ -10,7 +10,7 @@ const timestamp = new Date().valueOf(),
     SUFFIX = 'development';
 
 test('Push', async (t) => {
-    const sqs = new Sqs(PREFIX, SUFFIX);
+    const sqs = new Sqs(PREFIX, SUFFIX, { useNameOnly: false });
     await sqs.push(timestamp, { timestamp });
 });
 
