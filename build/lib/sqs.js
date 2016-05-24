@@ -46,14 +46,16 @@ var Sqs = function () {
     function Sqs() {
         var prefix = arguments.length <= 0 || arguments[0] === undefined ? 'hooq' : arguments[0];
         var suffix = arguments.length <= 1 || arguments[1] === undefined ? 'development' : arguments[1];
-        var options = arguments.length <= 2 || arguments[2] === undefined ? { aws: {} } : arguments[2];
+        var options = arguments.length <= 2 || arguments[2] === undefined ? { aws: {}, useNameOnly: false } : arguments[2];
 
         _classCallCheck(this, Sqs);
 
         var aws = options.aws;
+        var useNameOnly = options.useNameOnly;
 
         this.prefix = prefix;
         this.suffix = suffix;
+        this.useNameOnly = useNameOnly;
         this.sqs = new _awsSdk2.default.SQS({
             accessKeyId: process.env.AWS_ACCESS_KEY_ID || aws.accessKeyId,
             secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || aws.secretAccessKey,
@@ -278,7 +280,7 @@ _bluebird2.default.promisifyAll(this.sqs);
                     while (1) {
                         switch (_context3.prev = _context3.next) {
                             case 0:
-                                name = (this.prefix + '-' + name + '-' + this.suffix).toLowerCase();
+                                name = this.useNameOnly ? name : (this.prefix + '-' + name + '-' + this.suffix).toLowerCase();
                                 _context3.next = 3;
                                 return this.sqs.listQueuesAsync({ QueueNamePrefix: name });
 
