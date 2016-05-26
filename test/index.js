@@ -9,9 +9,11 @@ const timestamp = new Date().valueOf(),
     PREFIX = 'hooq-test',
     SUFFIX = 'development';
 
+let pushed = [];
+
 test('Push', async (t) => {
     const sqs = new Sqs(PREFIX, SUFFIX, { useNameOnly: false });
-    await sqs.push(timestamp, { timestamp });
+    pushed = await sqs.push(timestamp, { timestamp });
 });
 
 test.cb('Subscribe', (t) => {
@@ -19,6 +21,7 @@ test.cb('Subscribe', (t) => {
     const sqs = new Sqs(PREFIX, SUFFIX);
     sqs.subscribe(timestamp, (message, done) => {
         t.deepEqual(message.timestamp, timestamp);
+        t.deepEqual(pushed.data.pop().id, message.queueTransactionId);
         done();
         setTimeout(() => {
             sqs.removeQueue(queueUrl)
@@ -35,5 +38,8 @@ test.cb('Subscribe', (t) => {
     .then((subscriber) => {
         queueUrl = subscriber.queueUrl;
         subscriber.start();
+    })
+    .catch((err) => {
+        t.fail(err.message);
     });
 });

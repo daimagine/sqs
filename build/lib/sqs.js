@@ -244,7 +244,7 @@ _bluebird2.default.promisifyAll(this.sqs);
                                     queueUrl: queueUrl,
                                     handleMessage: handleMessage,
                                     batchSize: 10,
-                                    messageAttributes: ['id']
+                                    messageAttributeNames: ['id']
                                 });
 
                                 consumer.on('error', function (error) {
